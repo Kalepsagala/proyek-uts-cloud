@@ -1,0 +1,33 @@
+name: CI/CD Pipeline Kampus
+
+# Kapan pipeline ini berjalan? (Saat ada yang push atau Pull Request ke branch main)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Mengambil kode dari repository
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Setup Node.js (Sesuaikan dengan bahasa pemrograman aplikasi Anda, misal Python/PHP/NodeJS)
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # 3. Install Dependencies & Build
+    - name: Install Dependencies & Build
+      run: |
+        npm install
+        npm run build
+
+    # 4. Menjalankan Automated Testing
+    - name: Run Automated Tests
+      run: npm test
